@@ -2,15 +2,21 @@ const client = ZAFClient.init();
 
 async function updateSummary() {
   console.log('Updating summary...');
-  const convo = await getTicketConvo();
-  const prompt = await getPrompt(convo);
-  const summary = await getSummary(prompt);
-  const container = document.getElementById("container");
-  if (container) {
-    container.innerText = summary;
-    console.log('Summary updated.');
-  } else {
-    console.log('Container element not found.');
+  try {
+    const convo = await getTicketConvo();
+    const prompt = await getPrompt(convo);
+    const summary = await getSummary(prompt);
+    const container = document.getElementById("container");
+    if (container) {
+      container.innerText = summary;
+      console.log('Summary updated.');
+    } else {
+      console.log('Container element not found.');
+    }
+  } catch (error) {
+    const container = document.getElementById("container");
+    container.innerText = "Error generating summary";
+    console.error(error);
   }
 }
 async function getTicketConvo() {
